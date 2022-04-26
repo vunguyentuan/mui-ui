@@ -9,6 +9,7 @@ import {
   Divider,
   MenuList,
   MenuItem,
+  ListItemButton,
 } from '@mui/material'
 import Drawer from '@mui/material/Drawer'
 import Box from '@mui/material/Box'
@@ -25,6 +26,7 @@ import ContentCut from '@mui/icons-material/ContentCut'
 import ContentCopy from '@mui/icons-material/ContentCopy'
 import ContentPaste from '@mui/icons-material/ContentPaste'
 import Cloud from '@mui/icons-material/Cloud'
+import { Explore, Home } from '@mui/icons-material'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -68,7 +70,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }))
 
-export default function MainLayout({ children }) {
+export default function MainLayout({ children, onClickMenuItem }) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -108,7 +110,7 @@ export default function MainLayout({ children }) {
       <Drawer open={open} onClose={() => setOpen(false)}>
         <Box sx={{ width: 250 }} onClick={() => setOpen(false)}>
           <List>
-            {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+            {['Home', 'Contact', 'Send email', 'Drafts'].map((text, index) => (
               <ListItem button key={text}>
                 <ListItemIcon>
                   {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
@@ -139,46 +141,29 @@ export default function MainLayout({ children }) {
           boxSizing: 'border-box',
         }}
       >
-        <MenuList
-          sx={{
-            width: 250,
-          }}
-        >
-          <MenuItem>
-            <ListItemIcon>
-              <ContentCut fontSize="small" />
-            </ListItemIcon>
-            <ListItemText>Cut</ListItemText>
-            <Typography variant="body2" color="text.secondary">
-              ⌘X
-            </Typography>
-          </MenuItem>
-          <MenuItem>
-            <ListItemIcon>
-              <ContentCopy fontSize="small" />
-            </ListItemIcon>
-            <ListItemText>Copy</ListItemText>
-            <Typography variant="body2" color="text.secondary">
-              ⌘C
-            </Typography>
-          </MenuItem>
-          <MenuItem>
-            <ListItemIcon>
-              <ContentPaste fontSize="small" />
-            </ListItemIcon>
-            <ListItemText>Paste</ListItemText>
-            <Typography variant="body2" color="text.secondary">
-              ⌘V
-            </Typography>
-          </MenuItem>
+        <Box sx={{ width: 250 }}>
+          <List>
+            {['Home', 'Contact', 'Send email', 'Drafts'].map((text, index) => (
+              <ListItemButton key={text} selected={index === 0 } onClick={() => onClickMenuItem(text)}>
+                <ListItemIcon>
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            ))}
+          </List>
           <Divider />
-          <MenuItem>
-            <ListItemIcon>
-              <Cloud fontSize="small" />
-            </ListItemIcon>
-            <ListItemText>Web Clipboard</ListItemText>
-          </MenuItem>
-        </MenuList>
+          <List>
+            {['All mail', 'Trash', 'Spam'].map((text, index) => (
+              <ListItemButton key={text}>
+                <ListItemIcon>
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            ))}
+          </List>
+        </Box>
 
         <Box
           flex="1"
