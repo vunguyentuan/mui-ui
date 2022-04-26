@@ -13,6 +13,21 @@
   }
 }
 
+.hihi {
+  position: relative;
+  border-radius: 4px;
+  background-color: var(--background-color);
+  margin-left: 0;
+  width: 100%;
+}
+
+@media (min-width: 600px)  {
+  .hihi {
+    margin-left: 8px;
+    width: auto;
+  }
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
