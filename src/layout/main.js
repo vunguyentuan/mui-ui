@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { styled, alpha } from '@mui/material/styles'
 import {
   AppBar,
@@ -7,8 +8,6 @@ import {
   ListItemIcon,
   ListItemText,
   Divider,
-  MenuList,
-  MenuItem,
   ListItemButton,
 } from '@mui/material'
 import Drawer from '@mui/material/Drawer'
@@ -21,12 +20,6 @@ import MenuIcon from '@mui/icons-material/Menu'
 import SearchIcon from '@mui/icons-material/Search'
 import InboxIcon from '@mui/icons-material/Inbox'
 import MailIcon from '@mui/icons-material/Mail'
-
-import ContentCut from '@mui/icons-material/ContentCut'
-import ContentCopy from '@mui/icons-material/ContentCopy'
-import ContentPaste from '@mui/icons-material/ContentPaste'
-import Cloud from '@mui/icons-material/Cloud'
-import { Explore, Home } from '@mui/icons-material'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -72,6 +65,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function MainLayout({ children, onClickMenuItem }) {
   const [open, setOpen] = useState(false)
+  const navigate = useNavigate()
+  const location = useLocation();
+
 
   return (
     <Box sx={{ flexGrow: 1, height: '100%' }}>
@@ -143,12 +139,25 @@ export default function MainLayout({ children, onClickMenuItem }) {
       >
         <Box sx={{ width: 250 }}>
           <List>
-            {['Home', 'Contact', 'Send email', 'Drafts'].map((text, index) => (
-              <ListItemButton key={text} selected={index === 0 } onClick={() => onClickMenuItem(text)}>
+            {[
+              {
+                label: 'Home',
+                url: '/',
+              },
+              {
+                label: 'Contact',
+                url: '/contact',
+              },
+            ].map((menu, index) => (
+              <ListItemButton
+                key={menu.url}
+                selected={menu.url === location.pathname}
+                onClick={() => navigate(menu.url)}
+              >
                 <ListItemIcon>
                   {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                 </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemText primary={menu.label} />
               </ListItemButton>
             ))}
           </List>
